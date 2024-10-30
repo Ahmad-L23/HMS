@@ -21,7 +21,7 @@ userSchema.pre('save', async function(next) {
 });
 
 userSchema.methods.genAuthToken=function(){
-    return jwt.sign({ id: this._id, role: this.role},process.env.SECRET_KEY);
+    return jwt.sign(this.toJSON(),process.env.SECRET_KEY);
 }
 
 userSchema.methods.checkPassword=function(password){
