@@ -1,17 +1,17 @@
 const express=require("express");
 const router=express.Router();
-const {createDoctor,getDoctors,getDoctorById,deleteDoctor,updateDoctor}=require('../controllers/doctorController.js');
+const {createDoctor,getAllDoctors , getDoctorById , updateDoctor , deleteDoctor}=require('../controllers/doctorController.js');
 const{verifyTokenAndAdmin}=require("../middleWares/verfiyToken.js")
 
-router.post('/', verifyTokenAndAdmin , createDoctor);
+router.post('/',  createDoctor);
 
 
-router.get('/', verifyTokenAndAdmin ,getDoctors);
+router.get('/',getAllDoctors);
 
 
-router.route("/:id").get(verifyTokenAndAdmin,getDoctorById)
-.put( verifyTokenAndAdmin,updateDoctor)
-.delete(verifyTokenAndAdmin,deleteDoctor)
+router.route("/:id").get(getDoctorById)
+.put(updateDoctor)
+.delete(deleteDoctor)
 
 
 module.exports = router;

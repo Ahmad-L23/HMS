@@ -1,56 +1,39 @@
 const Joi = require('joi');
 
-const doctorSchema = Joi.object({
-  name: Joi.string()
-    .min(3)
-    .max(50)
-    .required()
-    .messages({
-      'string.empty': 'Doctor name is required',
-      'string.min': 'Name must be at least 3 characters long',
-      'string.max': 'Name cannot exceed 50 characters',
+exports.doctorSchema = Joi.object({
+    name: Joi.string().required().messages({
+        'string.empty': 'Name is required.'
     }),
-  specialty: Joi.string()
-    .required()
-    .messages({
-      'string.empty': 'Specialty is required',
+    email: Joi.string().email().required().messages({
+        'string.email': 'Email must be a valid email address.',
+        'string.empty': 'Email is required.'
     }),
-  email: Joi.string()
-    .email()
-    .required()
-    .messages({
-      'string.email': 'Please enter a valid email address',
-      'string.empty': 'Email is required',
+    password: Joi.string().min(6).required().messages({
+        'string.min': 'Password must be at least 6 characters long.',
+        'string.empty': 'Password is required.'
     }),
-  phone: Joi.string()
-    .pattern(/^\d{10}$/)
-    .required()
-    .messages({
-      'string.pattern.base': 'Phone number must be 10 digits',
-      'string.empty': 'Phone number is required',
+    specialty: Joi.string().required().messages({
+        'string.empty': 'Specialty is required.'
     }),
-  availability: Joi.string()
-    .required()
-    .messages({
-      'string.empty': 'Availability is required',
+    yearsOfExperience: Joi.string().optional().messages({
+        'string.empty': 'Years of experience should be a valid string.'
     }),
-  appointments: Joi.array().items(
-    Joi.object({
-      patientId: Joi.string().required().messages({
-        'string.empty': 'Patient ID is required for appointments',
-      }),
-      date: Joi.date().required().messages({
-        'date.base': 'Please enter a valid appointment date',
-        'any.required': 'Appointment date is required',
-      }),
-      notes: Joi.string()
-        .max(500)
-        .optional()
-        .messages({
-          'string.max': 'Notes cannot exceed 500 characters',
-        }),
+    workingHours: Joi.array().items(
+        Joi.object({
+            day: Joi.string()
+                .valid('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+                .required()
+                .messages({ 'any.only': 'Day must be a valid day of the week.' }),
+            startTime: Joi.string()
+                .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) // Format: HH:mm, 24-hour
+                .required()
+                .messages({ 'string.pattern.base': 'Start time must be in HH:mm format (24-hour).' }),
+            endTime: Joi.string()
+                .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
+                .required()
+                .messages({ 'string.pattern.base': 'End time must be in HH:mm format (24-hour).' })
+        })
+    ).unique('day').required().messages({
+        'array.unique': 'Each day should only appear once in the working hours.'
     })
-  ).optional(),
 });
-
-module.exports = doctorSchema;

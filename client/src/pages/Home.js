@@ -1,18 +1,7 @@
 import React from 'react';
 import Header from './../components/Header';
 import DoctorList from '../components/DoctorList';
-const doctorsData = [
-    { name: 'Alice Smith', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Cardiology' },
-    { name: 'John Doe', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Neurology' },
-    { name: 'Mary Jane', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Dermatology' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    { name: 'Steve Brown', image: 'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg', specialty: 'Pediatrics' },
-    // Add more doctors as needed
-  ];
+
 export default function Home() {
   return (
     <div className="flex flex-col p-4">
@@ -88,7 +77,7 @@ export default function Home() {
       </div>
 
       {/* Our Doctors Section */}
-      <DoctorList doctors={doctorsData} />
+      <DoctorList />
 
       {/* Send Us a Message Section */}
       <div className="mt-20 lg:mt-32 p-6 bg-gray-100 rounded-lg">

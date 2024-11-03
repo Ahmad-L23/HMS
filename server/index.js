@@ -3,8 +3,11 @@ require('dotenv').config();
 const express=require("express");
 const cors=require("cors")
 const mongoose=require("mongoose");
-const userRouter=require("./routes/authRoutes.js")
+const authRouter=require("./routes/authRoutes.js")
 const doctorRouter=require("./routes/doctorRoutes.js");
+const usersRouter = require("./routes/userRoutes.js");
+const PatientRouter = require("./routes/patientRoutes.js")
+const appointmentRouter = require("./routes/appointmetnRoutes.js")
 const connectDB=require("./config/db.js")
 
 //connect ot dataBase
@@ -17,8 +20,11 @@ app.use(cors());
 
 
 //routes
-app.use("/api/auth",userRouter);
+app.use("/api/auth",authRouter);
 app.use("/api/doctors",doctorRouter);
+app.use("/api/users",usersRouter);
+app.use("/api/patients",PatientRouter);
+app.use("/api/appointments",appointmentRouter);
 
 
 

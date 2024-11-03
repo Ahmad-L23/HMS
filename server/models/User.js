@@ -1,18 +1,32 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt=require("jsonwebtoken")
-const userSchema = new mongoose.Schema({
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    mobileNumber: { type: String, required: true },
-    dateOfBirth: { type: String, required: true },
-    address: { type: String, required: true },
-    gender: { type: String, required: true, enum: ['Male', 'Female'] },
-    password: { type: String, required: true },
-    role: { type: String, enum: ['admin', 'doctor', 'patient'], default: 'patient' }
-});
 
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isDoctor: {
+        type: Boolean,
+        default: false
+    }
+}, { timestamps: true });
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();

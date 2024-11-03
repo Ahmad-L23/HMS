@@ -1,6 +1,6 @@
 
 const User = require('../models/User');
-const { signupValidationSchema , loginValidationSchema} = require('../validations/authValidation.js');
+const { registerUserSchema , loginUserSchema} = require('../validations/authValidation.js');
 const asyncHandler = require('express-async-handler');
 
 
@@ -12,69 +12,39 @@ const asyncHandler = require('express-async-handler');
  *  @access  public
  */
 
-exports.signup = asyncHandler(async (req, res) => {
+exports.registerUser = async (req, res) => {
+    const { error } = registerUserSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
     try {
-        const { error } = signupValidationSchema.validate(req.body);
-        if (error) {
-            return res.status(400).json({ message: error.details[0].message });
-        }
+        const { name, email, password} = req.body;
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ message: 'invalid user name or password' });
 
-        const { firstName, lastName, email, mobileNumber, dateOfBirth, address, gender, role } = req.body;
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ message: 'Invalid Email or password' });
-        }
-
-    
-        user = new User({
-            firstName,
-            lastName,
-            email,
-            mobileNumber,
-            dateOfBirth,
-            address,
-            gender,
-            password:req.body.password,
-            role
-        });
-
-        const result=await user.save();
-        const token=user.genAuthToken();
-
-        const {password ,...other}=result._doc;
-
-        res.status(201).send(token);
+        const newUser = new User({ name, email, password});
+        await newUser.save();
+        const token = newUser.genAuthToken();
+        res.status(201).json({ token });
     } catch (error) {
-       
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: error.message });
     }
-});
+};
 
+// Login User
+exports.loginUser = async (req, res) => {
+    const { error } = loginUserSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
 
-
-exports.login = asyncHandler(async (req, res) => {
     try {
-        const { error } = loginValidationSchema.validate(req.body);
-        if (error) {
-            return res.status(400).json({ message: error.details[0].message });
-        }
-
         const { email, password } = req.body;
-
         const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid email or password' });
-        }
-
-        const isMatch=await user.checkPassword(password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+        if (!user || !(await user.checkPassword(password))) {
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         const token = user.genAuthToken();
-
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({ token });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: error.message });
     }
-});
+};

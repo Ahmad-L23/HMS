@@ -18,7 +18,7 @@ function Navbar() {
         <div className="hidden md:flex space-x-4 mx-auto">
           <Link to="/" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">Home</Link>
           <Link to="/appointment" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">Appointment</Link>
-          <Link to="/services" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">Services</Link>
+          <Link to="/AdminDash" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">AdminDash</Link>
           <Link to="/about" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">About Us</Link>
           <Link to="/contact" className="text-sm hover:bg-blue-100 px-2 py-1 rounded font-bold">Contact Us</Link>
         </div>
